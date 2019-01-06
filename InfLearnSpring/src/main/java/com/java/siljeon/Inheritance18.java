@@ -6,9 +6,9 @@ public class Inheritance18 {
 		ChildClass cc = new ChildClass();
 		cc.childFun();
 		cc.parentFun();
-		
-		ParentClass pc= new ParentClass();
-//		pc.privateParentFun();
+
+		ParentClass pc = new ParentClass();
+		// pc.privateParentFun();
 	}
 
 }

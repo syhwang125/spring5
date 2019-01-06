@@ -1,10 +1,10 @@
 package com.java.designpattern.Adapter;
 
-public class AdapterImpl implements Adapter{
+public class AdapterImpl implements Adapter {
 
 	@Override
 	public Float twiceOf(Float f) {
-		
+
 		return (float) Math.twoTime(f.doubleValue());
 	}
 

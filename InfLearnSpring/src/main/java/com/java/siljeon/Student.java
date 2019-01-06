@@ -4,14 +4,14 @@ public class Student {
 
 	private String name;
 	private int score;
-	
+
 	public Student(String name, int score) {
 		this.name = name;
 		this.score = score;
 	}
-	
+
 	public void getInfo() {
-		System.out.println(" getInfo's name -> " + name + " score -> " + score ); 
+		System.out.println(" getInfo's name -> " + name + " score -> " + score);
 	}
 
 	public String getName() {
@@ -27,9 +27,8 @@ public class Student {
 	}
 
 	public void setScore(int score) {
-		if(score > 50) 
+		if (score > 50)
 			this.score = score;
 	}
-	
-	
+
 }

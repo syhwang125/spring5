@@ -5,13 +5,13 @@ public class Computer {
 	private String cpu;
 	private String ram;
 	private String storage;
-	
+
 	public Computer(String cpu, String ram, String storage) {
 		super();
 		this.cpu = cpu;
 		this.ram = ram;
 		this.storage = storage;
-			
+
 	}
 
 	public String getCpu() {
@@ -37,11 +37,9 @@ public class Computer {
 	public void setStorage(String storage) {
 		this.storage = storage;
 	}
-	
+
 	public String toString() {
 		return cpu + "," + ram + "," + storage;
 	}
-	
 
-	
 }

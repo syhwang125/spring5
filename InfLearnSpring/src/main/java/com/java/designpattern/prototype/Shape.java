@@ -11,6 +11,5 @@ public class Shape implements Cloneable {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	
+
 }

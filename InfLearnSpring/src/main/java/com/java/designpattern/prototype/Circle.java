@@ -1,16 +1,16 @@
 package com.java.designpattern.prototype;
 
-public class Circle extends Shape{
+public class Circle extends Shape {
 
-	private int x,y,r;
-	
+	private int x, y, r;
+
 	public Circle(int x, int y, int r) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.r = r;
 	}
-	
+
 	public int getX() {
 		return x;
 	}
@@ -34,12 +34,12 @@ public class Circle extends Shape{
 	public void setR(int r) {
 		this.r = r;
 	}
-	
+
 	public Circle copy() throws CloneNotSupportedException {
 		Circle circle = (Circle) clone();
-		circle.x +=1;
-		circle.y +=1; 
+		circle.x += 1;
+		circle.y += 1;
 		return circle;
 	}
-	
+
 }

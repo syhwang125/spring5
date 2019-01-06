@@ -8,7 +8,7 @@ public class MainApp {
 	public static void main(String[] args) {
 		AInterface a = new AInterfaceImpl();
 		a.funcA();
-		
+
 		AObject aobj = new AObject();
 		aobj.funcAA();
 	}

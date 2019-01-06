@@ -3,20 +3,22 @@ package com.java.designpattern.Template;
 public abstract class AbstGameConnectHelper {
 
 	protected abstract String doSecurity(String string);
+
 	protected abstract boolean authentication(String id, String password);
+
 	protected abstract int authorization(String userName);
+
 	protected abstract String connection(String info);
-	
+
 	public String requestConnection(String encodedInfo) {
-		String id, password, userName,userInfo, decodedInfo;
-		
-		// 보안작업 -> 암호화된 문자열을 복호화 
+		String id, password, userName, userInfo, decodedInfo;
+
+		// 보안작업 -> 암호화된 문자열을 복호화
 		decodedInfo = doSecurity(encodedInfo);
-		 id = "syacorn";
-		 password = "1234";
-		
-		 
-		if(!authentication(id, password)) {
+		id = "syacorn";
+		password = "1234";
+
+		if (!authentication(id, password)) {
 			throw new Error("암호 불일치 ");
 		}
 
@@ -41,7 +43,7 @@ public abstract class AbstGameConnectHelper {
 		}
 
 		return connection(decodedInfo);
-		
+
 	}
-	
+
 }
