@@ -1,5 +1,5 @@
 
-# Java 기초 강좌와 Spring Framework 강좌를 바탕으로 개발한 코드입니다. 
+# Java 기초 강좌와 Spring Framework 강좌
 
 ## 유튜브 
 
