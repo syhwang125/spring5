@@ -268,25 +268,40 @@ https://github.com/rajeshrv/Spring5Microservice
         
         + 예시
      
-         FROM frolvlad/alpine-oraclejdk8               // 도커에게 jdk버전으로 도커이미지를 생성하란 의미
-         VOLUME /tmp                                  // 컨테이너가 /tmp접근할 수 있게 해줌. 톰캣을 위한 작업 디렉토리를 생성하는 곳
-         ADD target/search-1.0.jar search.jar         // 실행파이너리파일을 컨테이너에 추가 
-         EXPOSE 8090                                  // 스프링부트서비스를 호스트의 8090으로 바인딩
-         ENTRYPOINT ["java","-jar","/search.jar"]     // 컨테이너가 시작할때 실행되는 어플리케이션 지정
+         FROM frolvlad/alpine-oraclejdk8               
+         // 도커에게 jdk버전으로 도커이미지를 생성하란 의미
+         VOLUME /tmp                                  
+         // 컨테이너가 /tmp접근할 수 있게 해줌. 톰캣을 위한 작업 디렉토리를 생성하는 곳
+         ADD target/search-1.0.jar search.jar         
+         // 실행파이너리파일을 컨테이너에 추가 
+         EXPOSE 8090                                  
+         // 스프링부트서비스를 호스트의 8090으로 바인딩
+         ENTRYPOINT ["java","-jar","/search.jar"]     
+         // 컨테이너가 시작할때 실행되는 어플리케이션 지정
           
-         $docker build -t search:1.0                 // 검색서비스를 위한 docker image 생성 
+         $docker build -t search:1.0                
+         // 검색서비스를 위한 docker image 생성 
 
-         $docker images                               // 도커이미지 확인
-         $docker run -p 8090:8090 -t search:1.0     // 컨테이너 로딩 및 스프링부트 실행
-         $docker run rabbitmq                         // rabbitmq 실행
-         $docker ps                                   // 프로세스 실행여부 확인
-         http://localhost:8001                        // 브라우저 웹사이트 접속  
+         $docker images                              
+         // 도커이미지 확인
+         $docker run -p 8090:8090 -t search:1.0    
+         // 컨테이너 로딩 및 스프링부트 실행
+         $docker run rabbitmq                         
+         // rabbitmq 실행
+         $docker ps                                   
+         // 프로세스 실행여부 확인
+         http://localhost:8001                       
+         // 브라우저 웹사이트 접속  
          
       - 도커 레지스트리 사용 
-         $docker run  -d -p 5000:5000 --restart=always --name registry registry:latest          // 5000번 포트로 레지스트리 시작
-         $docker tag search:1.0 localhost:5000/search:1.0      //도커이미지에 search tag붙인다
-         $docker push localhost:5000/search:1.0             //도커이미지를 레지스트리에 푸시
-         $docker pull localhost:5000/search:1.0             //도커이미지를 레지스트리에서 다운로드
+         $docker run  -d -p 5000:5000 --restart=always --name registry registry:latest          
+         // 5000번 포트로 레지스트리 시작
+         $docker tag search:1.0 localhost:5000/search:1.0      
+         //도커이미지에 search tag붙인다
+         $docker push localhost:5000/search:1.0             
+         //도커이미지를 레지스트리에 푸시
+         $docker pull localhost:5000/search:1.0             
+         //도커이미지를 레지스트리에서 다운로드
 
       - 도커 허브 구성 
          http://docs.docker.com/engine/installation 
@@ -304,6 +319,7 @@ https://github.com/rajeshrv/Spring5Microservice
             $sudo apt-get install docker.io 
          3) 설치 확인
             $sudo docker version
+            
       - EC2에서 브라운필드 서비스 실행 
          1) .properties 파일에 EC2인스턴스의 IP주소 반영
          2) 로컬장비에서 프로젝트 compile 및 도커이미지 생성, 허브 레지스트에 푸시
@@ -326,6 +342,7 @@ https://github.com/rajeshrv/Spring5Microservice
         + 여러 노드들의 클러스터에 걸쳐 컨테이너화된 어플리케이션을 관리하는데 도움을 주는 도구로서 컨테이너 배포 자동화, 스케줄링, 컨테이너 확장을 자동화해 줌
         + 쿠버네티스는 마스터와 노드로 클러스터를 형성한다.  
         + 노드는 여러개의 팟(pod)으로 나눌 수 있으며 하나 이상의 컨테이너가 팟 안에서 그룹화되어 실행됨
+        
       - 아파치 메소스(Mesos) : UC버클리대학에서 개발되어 트위터에서 확장된 오픈소스 프레임워크임. 
         + 다수의 컴퓨터를 하나의 큰 장비로 논리적으로 그룹화하고 가상화해주는 분산 시스템 커널이다. 
         + 메소스는 다수의 이기종 자원을 어플리케이션이 배포될 수 있는 하나의 균일한 자원 클러스터로 그룹화할 수 있기 때문에 데이터센터에서 사설 클라우드를 구축할 수 있게 해주는 도구로 사용됨. 
@@ -364,7 +381,7 @@ https://github.com/rajeshrv/Spring5Microservice
          $tar xzf marathon-1.4.3.tgz 
 
       - 주키퍼 설치 
-         $wget          http://ftp.unicamp.br/pub/apache/zookeeper/zookeeper-3.4.9/zookeeper-3.4.9.tar.gz
+         $wget http://ftp.unicamp.br/pub/apache/zookeeper/zookeeper-3.4.9/zookeeper-3.4.9.tar.gz
          $tar -xzvf zookeeper-3.4.9.tar.gz
          $rm -rf zookeeper-3.4.9.tar.gz
          $cd zookeeper-3.4.9
@@ -395,7 +412,8 @@ https://github.com/rajeshrv/Spring5Microservice
            (지속적 전달 , 지속적 통합, 지속적 배포)
 
    * 개발 사이클 자동화
-      - 지속적 전달 파이프라인 단계 : 개발 -> 통합(스프링 클라우드, 도커) -> (기능/보안/성능)테스트(스프링 클라우드, 도커) -> 인수테스트(스프링 클라우드, 도커) -> 스테이징(스프링 클라우드, 도커)
+      - 지속적 전달 파이프라인 단계 
+        + 개발 -> 통합(스프링 클라우드, 도커) -> (기능/보안/성능)테스트(스프링 클라우드, 도커) -> 인수테스트(스프링 클라우드, 도커) -> 스테이징(스프링 클라우드, 도커)
       - 개발
          + 소스코드 : eclipse IDE, SonarQube
          + 단위테스트 : junit
@@ -423,19 +441,21 @@ https://github.com/rajeshrv/Spring5Microservice
 
   * tenant : 조직, 조직도, 구성원, 작업공간 
   * 서비스 구독 : 앱스토어. 사용자 기능을 앱형식으로 제공
-     앱은 워크스페이스 단위로 구독(subscription), 필요한 기능 구독/취소. 작업자의 역할에 따라 접근 제어 
+    - 앱은 워크스페이스 단위로 구독(subscription), 필요한 기능 구독/취소. 작업자의 역할에 따라 접근 제어 
   * 접근제어 : 사용자 인증과 역할에 따른 사용자 접근을 조절하며, 요청 관련 필요한 정보를 주입하여 앱에서 사용
   * 역할 매핑 : 역할기반접근제어(Role-Based Access Control) 
   * 작업공간(workspace) :  하나의 시스템에서 서로 다른 어플리케이션을 사용하는 듯한 효과임. 각 공간에서 그 공간에서 필요한 서비스를 구독하여 사용
-  * Nara 드라마 : iOS나 안드로이드에 기본앱이 있는 것과 유사함. 12개의 공유앱이 앱스토어에 있음. 예)board, checklist, feedback, flow, party, profile, talk, task 등 
+  * Nara 드라마 : iOS나 안드로이드에 기본앱이 있는 것과 유사함. 12개의 공유앱이 앱스토어에 있음. 
+    - 예)board, checklist, feedback, flow, party, profile, talk, task 등 
   * 드라마 명세서 : 서비스명세와 설계, 코딩을 위한 안내서로서 참조모델역할
   * 서비스 독립성 : 앱스토어를 통해서 배포되는 앱을 드라마라고 함
   * 세션 컨텍스트 : 기능 수행을 위해 사용자/조직/요청 컨텍스트 정보 필요
     기존 어플리케이션 개발에서는 세션이라는 곳에 요청 관련 제한된 수준의 정보를 저장하였음. Stage 는 사용자/조직/구성원/요청/공유자료 등에 대한 모든 정보를 API로 제공하는 세션 컨텍스트임. 앱은 고유의기능 개발에 집중하고 서비스 수행에 필요한 모든 정보를 Stage API를 호출하여 가져옴
   * App 생태계 : Private 앱스토어 . SaaS 
-    NARA플랫폼은 MSA 기반 서비스 플랫폼이면서 앱스토어를 갖고 있음
+    - NARA플랫폼은 MSA 기반 서비스 플랫폼이면서 앱스토어를 갖고 있음
 
   ※ 플랫폼 기반 앱스토어 비교
+  
      - salesforce.com : 앱 익스체인지
      - 애플 : 앱스토어
      - 구글 : 플레이 스토어
@@ -445,13 +465,15 @@ https://github.com/rajeshrv/Spring5Microservice
      
 --------------------------------------------------------------------------------------
 
-# Git Bash 에서 npm 사용 # 
-$npm install -g mark2html 으로 markdown -> html 변환기 설치하면 nodejs 아래 폴더에 설치된다. 
+# Git Bash 에서 npm 사용
+
+$npm install -g mark2html    
+// markdown -> html 변환기 설치하면 nodejs 아래 폴더에 설치된다. 
 $ cd '/c/Program Files/nodejs/node_modules/mark2html'
 $ mark2html -s /d/작업방/Spring5Microservice-master/Spring5Microservices-2e.md -d /c/temp/markdown2.html
 
-# 간단한 markdown 문법 #
+# 간단한 markdown 문법 
 * 1단계
     - 2단계
     	+ 3단계
-            = 4단계
+        = 4단계
