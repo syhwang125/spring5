@@ -267,20 +267,21 @@ https://github.com/rajeshrv/Spring5Microservice
        3) 모든 서비스의 루트디렉토리에서 dockerfile 생성 
         
         + 예시
-        -------------------------------------------------------
+     
          FROM frolvlad/alpine-oraclejdk8               // 도커에게 jdk버전으로 도커이미지를 생성하란 의미
          VOLUME /tmp                                  // 컨테이너가 /tmp접근할 수 있게 해줌. 톰캣을 위한 작업 디렉토리를 생성하는 곳
          ADD target/search-1.0.jar search.jar         // 실행파이너리파일을 컨테이너에 추가 
          EXPOSE 8090                                  // 스프링부트서비스를 호스트의 8090으로 바인딩
          ENTRYPOINT ["java","-jar","/search.jar"]     // 컨테이너가 시작할때 실행되는 어플리케이션 지정
-          -----------------------------------------------
+          
          $docker build -t search:1.0                 // 검색서비스를 위한 docker image 생성 
 
          $docker images                               // 도커이미지 확인
          $docker run -p 8090:8090 -t search:1.0     // 컨테이너 로딩 및 스프링부트 실행
          $docker run rabbitmq                         // rabbitmq 실행
          $docker ps                                   // 프로세스 실행여부 확인
-         http://localhost:8001                        // 브라우저 웹사이트 접속      
+         http://localhost:8001                        // 브라우저 웹사이트 접속  
+         
       - 도커 레지스트리 사용 
          $docker run  -d -p 5000:5000 --restart=always --name registry registry:latest          // 5000번 포트로 레지스트리 시작
          $docker tag search:1.0 localhost:5000/search:1.0      //도커이미지에 search tag붙인다
@@ -322,9 +323,13 @@ https://github.com/rajeshrv/Spring5Microservice
    * 컨테이너 오케스트레이션 솔루션
       - 도커 스웜(Docker Swarm)
       - 쿠버네티스(Kubernetes) : 구글 Go언어로 만들어짐
-        여러 노드들의 클러스터에 걸쳐 컨테이너화된 어플리케이션을 관리하는데 도움을 주는 도구로서 컨테이너 배포 자동화, 스케줄링, 컨테이너 확장을 자동화해 줌
-        쿠버네티스는 마스터와 노드로 클러스터를 형성한다.  노드는 여러개의 팟(pod)으로 나눌 수 있으며 하나 이상의 컨테이너가 팟 안에서 그룹화되어 실행됨
-      - 아파치 메소스(Mesos) : UC버클리대학에서 개발되어 트위터에서 확장된 오픈소스 프레임워크임. 다수의 컴퓨터를 하나의 큰 장비로 논리적으로 그룹화하고 가상화해주는 분산 시스템 커널이다. 메소스는 다수의 이기종 자원을 어플리케이션이 배포될 수 있는 하나의 균일한 자원 클러스터로 그룹화할 수 있기 때문에 데이터센터에서 사설 클라우드를 구축할 수 있게 해주는 도구로 사용됨. 메소스는 마스터노드와 슬레이브 노드로 구성되며, 클러스터 코디네이션을 위해 주키퍼(zookeeper)를 사용함
+        + 여러 노드들의 클러스터에 걸쳐 컨테이너화된 어플리케이션을 관리하는데 도움을 주는 도구로서 컨테이너 배포 자동화, 스케줄링, 컨테이너 확장을 자동화해 줌
+        + 쿠버네티스는 마스터와 노드로 클러스터를 형성한다.  
+        + 노드는 여러개의 팟(pod)으로 나눌 수 있으며 하나 이상의 컨테이너가 팟 안에서 그룹화되어 실행됨
+      - 아파치 메소스(Mesos) : UC버클리대학에서 개발되어 트위터에서 확장된 오픈소스 프레임워크임. 
+        + 다수의 컴퓨터를 하나의 큰 장비로 논리적으로 그룹화하고 가상화해주는 분산 시스템 커널이다. 
+        + 메소스는 다수의 이기종 자원을 어플리케이션이 배포될 수 있는 하나의 균일한 자원 클러스터로 그룹화할 수 있기 때문에 데이터센터에서 사설 클라우드를 구축할 수 있게 해주는 도구로 사용됨. 
+        + 메소스는 마스터노드와 슬레이브 노드로 구성되며, 클러스터 코디네이션을 위해 주키퍼(zookeeper)를 사용함
       
 
    * 메소스와 마라톤을 이용한 컨테이너 오케스트레이션
@@ -450,13 +455,3 @@ $ mark2html -s /d/작업방/Spring5Microservice-master/Spring5Microservices-2e.m
     - 2단계
     	+ 3단계
             = 4단계
-
-*single asterisks*
-_single underscores_
-**double asterisks**
-__double underscores__
-++underline++
-~~cancelline~~
-
-[googlelink]: https://google.com "Go google"
-![Alt text](/path/to/img.jpg "Optional title")
