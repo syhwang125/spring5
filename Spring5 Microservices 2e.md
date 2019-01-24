@@ -265,7 +265,9 @@ https://github.com/rajeshrv/Spring5Microservice
        1) 도커 설치 후 docker.app실행해서 정상설치여부 확인
        2) 모든 서비스의 application.properties 파일의 IP를 DNS나 로드밸러서의 IP로 주소 지정 
        3) 모든 서비스의 루트디렉토리에서 dockerfile 생성 
+        
         + 예시
+        -------------------------------------------------------
          FROM frolvlad/alpine-oraclejdk8               // 도커에게 jdk버전으로 도커이미지를 생성하란 의미
          VOLUME /tmp                                  // 컨테이너가 /tmp접근할 수 있게 해줌. 톰캣을 위한 작업 디렉토리를 생성하는 곳
          ADD target/search-1.0.jar search.jar         // 실행파이너리파일을 컨테이너에 추가 
