@@ -29,7 +29,7 @@
 *.rar
 
 # Eclipse
-.settings/
+/.settings/
 .buildpath
 .classpath
 .project

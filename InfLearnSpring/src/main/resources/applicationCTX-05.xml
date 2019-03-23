@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="student1" class="com.java.spring.Chap05Student">
+	<constructor-arg>
+		<value>hong gil dong</value>
+	</constructor-arg>
+	<constructor-arg>
+		<value>10-year-old</value>
+	</constructor-arg>
+	<constructor-arg>
+		<value>3rd grade</value>
+	</constructor-arg>
+	<constructor-arg>
+		<value>20</value>
+	</constructor-arg>
+</bean>
+
+<bean id="student2" class="com.java.spring.Chap05Student">
+	<constructor-arg value="hong gil jaaa"/>
+	<constructor-arg value="9-year-old"/>
+	<constructor-arg value="2nd grade"/>
+	<constructor-arg value="7"/>
+</bean>
+
+<bean id="studentInfo" class="com.java.spring.Chap05StudentInfo">
+	<constructor-arg>
+		<ref bean = "student1"/>
+	</constructor-arg>
+</bean>
+
+</beans>
