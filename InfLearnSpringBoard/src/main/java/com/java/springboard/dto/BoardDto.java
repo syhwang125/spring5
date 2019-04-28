@@ -10,7 +10,6 @@ public class BoardDto {
 	private String bTitle;
 	private String bContent;
 //	private Timestamp bDate;
-	private String bDate;
 	private int bHit;
 	private int bGroup;
 	private int bStep;
@@ -21,12 +20,13 @@ public class BoardDto {
 	}
 	
 	public BoardDto(int bId, String bName,String bTitle,String bContent,
-			String bDate, int bHit, int bGroup, int bStep,int bIndent ) {
+//			Timestamp bDate,
+			int bHit, int bGroup, int bStep,int bIndent ) {
 		this.bId = bId;
 		this.bName = bName;
 		this.bTitle = bTitle;
 		this.bContent = bContent;
-		this.bDate = bDate; 
+//		this.bDate = bDate; 
 		this.bHit= bHit; 
 		this.bGroup = bGroup;
 		this.bStep = bStep;
@@ -57,12 +57,12 @@ public class BoardDto {
 	public void setbContent(String bContent) {
 		this.bContent = bContent;
 	}
-	public String getbDate() {
-		return bDate;
-	}
-	public void setbDate(String bDate) {
-		this.bDate = bDate;
-	}
+//	public String getbDate() {
+//		return bDate;
+//	}
+//	public void setbDate(String bDate) {
+//		this.bDate = bDate;
+//	}
 	public int getbHit() {
 		return bHit;
 	}
