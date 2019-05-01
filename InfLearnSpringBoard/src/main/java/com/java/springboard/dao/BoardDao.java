@@ -78,7 +78,7 @@ public class BoardDao {
 		}	
 	}
 
-
+/*
 	public ArrayList<BoardDto> list() {
 		ArrayList<BoardDto> dtos = new ArrayList<BoardDto>();
 		Connection conn = null;
@@ -126,8 +126,7 @@ public class BoardDao {
 		}
 		return dtos;
 	}
-
-/*	
+*/
 	// using the Jdbctemplate 
 	public ArrayList<BoardDto> list() {
 		ArrayList<BoardDto> dtos = null;
@@ -138,7 +137,7 @@ public class BoardDao {
 		
 		return dtos;
 	}
-*/	
+	
 	public BoardDto contentView(String strId) {
 		BoardDto dto = null;
 		Connection connection = null;
