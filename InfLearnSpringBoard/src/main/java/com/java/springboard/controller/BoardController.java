@@ -2,6 +2,8 @@ package com.java.springboard.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import com.java.springboard.command.BoardModifyCmd;
 import com.java.springboard.command.BoardReplyCmd;
 import com.java.springboard.command.BoardReplyViewCmd;
 import com.java.springboard.command.BoardWriteCmd;
+import com.java.springboard.util.Constant;
 
 
 // http://localhost:8080/springboard/ 
@@ -25,6 +28,14 @@ public class BoardController {
 
 	BoardCommand command;
 	
+	public JdbcTemplate template;
+ 
+	@Autowired
+	public void setTemplate(JdbcTemplate template) {
+		this.template = template;
+		Constant.template = this.template;
+	}
+
 	@RequestMapping("/list")
 	public String list(Model model) {
 		System.out.println("list method started...");
@@ -36,7 +47,6 @@ public class BoardController {
 	@RequestMapping("/write_view")
 	public String write_view(Model model) {
 		System.out.println("write_view method started...");
-		
 		return "write_view";
 	}
 	

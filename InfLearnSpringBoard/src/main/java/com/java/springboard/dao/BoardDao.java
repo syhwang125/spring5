@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.naming.Context;
@@ -12,15 +11,22 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.java.springboard.dto.BoardDto;
+import com.java.springboard.util.Constant;
 
 public class BoardDao {
 
 	DataSource dataSource;
 
+	JdbcTemplate template = null; 
+	
 	// 생성자
 	// 생성 시점에 데이터 소스 구하기. 컨텍스트 -> 데이터소스
 	public BoardDao() {
+		// try ~ catch 는 필요없으므로 삭제해야 함. 
 		try {
 			Context context = new InitialContext();
 			dataSource = (DataSource) context.lookup("java:comp/env/jdbc/sqlite");
@@ -28,6 +34,9 @@ public class BoardDao {
 		} catch (NamingException ne) {
 			ne.printStackTrace();
 		}
+		
+		template = Constant.template;
+		
 	}
 
 	public void write(String bName, String bTitle, String bContent) {
@@ -69,6 +78,7 @@ public class BoardDao {
 		}	
 	}
 
+
 	public ArrayList<BoardDto> list() {
 		ArrayList<BoardDto> dtos = new ArrayList<BoardDto>();
 		Connection conn = null;
@@ -90,8 +100,6 @@ public class BoardDao {
 				String bTitle = rs.getString("bTitle");
 				String bContent = rs.getString("bContent");
 			//	System.out.println("############" + rs.getDate("bDate"));
-			
-			//	String bDate = rs.getString("bDate");
 //				Timestamp bDate = rs.getTimestamp("bDate");
 				int bHit = rs.getInt("bHit");
 				int bGroup = rs.getInt("bGroup");
@@ -119,6 +127,18 @@ public class BoardDao {
 		return dtos;
 	}
 
+/*	
+	// using the Jdbctemplate 
+	public ArrayList<BoardDto> list() {
+		ArrayList<BoardDto> dtos = null;
+		
+		String query =  "select bId, bName, bTitle, bContent, bHit, bGroup, bIndent, bStep "
+				+ " from mvc_board2 order by bGroup desc, bStep asc";
+		dtos = (ArrayList<BoardDto>) template.query(query,  new BeanPropertyRowMapper<BoardDto>(BoardDto.class));
+		
+		return dtos;
+	}
+*/	
 	public BoardDto contentView(String strId) {
 		BoardDto dto = null;
 		Connection connection = null;
