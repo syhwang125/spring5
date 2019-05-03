@@ -1,5 +1,7 @@
 package com.java.springboard.controller;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,13 @@ public class BoardController {
  
 	@Autowired
 	public void setTemplate(JdbcTemplate template) {
+        System.out.println( "나와라1"+template.getDataSource() );
+	    try {
+            System.out.println(  "나와라1"+template.getDataSource().getConnection() );
+        } catch ( SQLException e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 		this.template = template;
 		Constant.template = this.template;
 	}

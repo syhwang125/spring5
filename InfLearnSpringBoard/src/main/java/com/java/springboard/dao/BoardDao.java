@@ -130,11 +130,19 @@ public class BoardDao {
 	// using the Jdbctemplate 
 	public ArrayList<BoardDto> list() {
 		ArrayList<BoardDto> dtos = null;
-		
+		System.out.println( "boardDao called ######## "  );
 		String query =  "select bId, bName, bTitle, bContent, bHit, bGroup, bIndent, bStep "
 				+ " from mvc_board2 order by bGroup desc, bStep asc";
+        System.out.println( "boardDao called template :: " + template );
+		System.out.println( "boardDao called template.getDataSource() :: " + template.getDataSource() );
+        int count = template.queryForInt( "select bId from mvc_board2" );
+        System.out.println( "boardDao called template.queryForInt() : "  + count);
+        count = template.update( "insert into mvc_board2(bName, bTitle, bContent) values('test','title','contents');" );
+        System.out.println( "boardDao called template.update() : "  + count);
+        
+        
 		dtos = (ArrayList<BoardDto>) template.query(query,  new BeanPropertyRowMapper<BoardDto>(BoardDto.class));
-		
+		System.out.println( "boardDao called ######## size :: " + dtos.size() );
 		return dtos;
 	}
 	
