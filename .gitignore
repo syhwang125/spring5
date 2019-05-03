@@ -1,7 +1,9 @@
 # Compiled class file
 # Java
 *.class
-/target/
+target/
+bin/
+.settings/
 /bin/*.exe 
 
 # Log file
@@ -29,7 +31,7 @@
 *.rar
 
 # Eclipse
-.settings/
+/.settings/
 .buildpath
 .classpath
 .project
@@ -37,3 +39,4 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 /.metadata/
+/bin/

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="student3" class="com.java.spring.Chap06Student">
+		<constructor-arg value="hong gil soon"/>
+		<constructor-arg value="14"/>
+		<constructor-arg>
+			<list>
+				<value>reading</value>
+				<value>singing</value>
+			</list>
+		</constructor-arg>
+	
+		<property name="height">
+			<value>165</value>
+		</property>
+		<property name="weight" value="55"/>
+	
+	</bean>
+
+	<bean id="family" class="com.java.spring.Chap06Family" c:papaName="hong Daddy" c:mamiName="park Mama" p:sisterName="hong sister">
+		<property name="brotherName" value="hong brother"/>
+	</bean>
+</beans>
