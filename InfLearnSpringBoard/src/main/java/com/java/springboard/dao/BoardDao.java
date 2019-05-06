@@ -13,6 +13,8 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import com.java.springboard.dto.BoardDto;
 import com.java.springboard.util.Constant;
@@ -39,7 +41,8 @@ public class BoardDao {
 		
 	}
 
-	public void write(String bName, String bTitle, String bContent) {
+/*	
+ 	public void write(String bName, String bTitle, String bContent) {
 		System.out.println("@@@@@@@   here is write method calling~~~~~~~~");
 		
 		Connection conn = null;
@@ -77,7 +80,26 @@ public class BoardDao {
 			}
 		}	
 	}
+*/
+	
+	public void write(final String bName, final String bTitle, final String bContent) {
+		template.update(new PreparedStatementCreator() {
 
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				String query = "insert into mvc_board2 (  bName, bTitle, bContent, bHit, bGroup, bStep, bIndent ) " +
+					    " values (  ?, ?, ?, 0, 1, 0, 0 ) ";
+//						" values ( mvc_board_seq.nextval, ?, ?, ?, 0, mvc_board_seq.currentVal, 0, 0 ) ";
+				PreparedStatement pstmt = con.prepareStatement(query);
+				pstmt.setString(1, bName);
+				pstmt.setString(2, bTitle);
+				pstmt.setString(3, bContent);
+				return null;
+			}
+			
+		});
+				
+	}
 /*
 	public ArrayList<BoardDto> list() {
 		ArrayList<BoardDto> dtos = new ArrayList<BoardDto>();
@@ -131,22 +153,26 @@ public class BoardDao {
 	public ArrayList<BoardDto> list() {
 		ArrayList<BoardDto> dtos = null;
 		System.out.println( "boardDao called ######## "  );
+		
 		String query =  "select bId, bName, bTitle, bContent, bHit, bGroup, bIndent, bStep "
 				+ " from mvc_board2 order by bGroup desc, bStep asc";
+		
+		// test
         System.out.println( "boardDao called template :: " + template );
 		System.out.println( "boardDao called template.getDataSource() :: " + template.getDataSource() );
-        int count = template.queryForInt( "select bId from mvc_board2 where bId=2" ); 
-         
+        int count = template.queryForInt( "select bId from mvc_board2 where bId=2" );         
         System.out.println( "boardDao called template.queryForInt() : "  + count);
         count = template.update( "insert into mvc_board2(bName, bTitle, bContent) values('test','title','contents');" );
-        System.out.println( "boardDao called template.update() : "  + count);  
+        System.out.println( "boardDao called template.update() : "  + count);         
         
+//		dtos = (ArrayList<BoardDto>) template.query(query,  new BeanPropertyRowMapper<BoardDto>(BoardDto.class));
+//		System.out.println( "boardDao called ######## size :: " + dtos.size() );
+//		return dtos;
+        return (ArrayList<BoardDto>) template.query(query,  new BeanPropertyRowMapper<BoardDto>(BoardDto.class));
         
-		dtos = (ArrayList<BoardDto>) template.query(query,  new BeanPropertyRowMapper<BoardDto>(BoardDto.class));
-		System.out.println( "boardDao called ######## size :: " + dtos.size() );
-		return dtos;
 	}
 	
+/*	
 	public BoardDto contentView(String strId) {
 		BoardDto dto = null;
 		Connection connection = null;
@@ -187,7 +213,15 @@ public class BoardDao {
 		}
 		return dto;
 	}
+	*/
 	
+	public BoardDto contentView(String strID) {
+		upHit(strID);
+		String query = "select * from mvc_board2 where bid=?";
+		return template.queryForObject(query, new BeanPropertyRowMapper<BoardDto>(BoardDto.class));	
+	}
+	
+/*	
 	private void upHit(String bId) {
 		Connection connection = null;
 		PreparedStatement ps = null;
@@ -209,7 +243,18 @@ public class BoardDao {
 			}
 		}
 	}
-
+*/
+	private void upHit(final String bId) {
+		String query = "update mvc_board2 set bHit = bHit + 1 where  bId = ? ";
+		template.update(query, new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1,  Integer.parseInt(bId));
+			}
+		});
+	}
+	
+/*	
 	public void modify(String bId, String bName, String bTitle, String bContent) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -235,11 +280,24 @@ public class BoardDao {
 				e2.printStackTrace();
 			}
 		}
-		
-		
-		
 	}
+*/
+	
+	public void modify(final String bId, final String bName, final String bTitle, final String bContent) {
+		String query = "update mvc_board2 set bName = ? , bTitle = ?, bContent = ? where bId = ? ";
+		template.update(query, new PreparedStatementSetter() {
 
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, bName);
+				ps.setString(2, bTitle);
+				ps.setString(3, bContent);
+				ps.setInt(4,  Integer.parseInt(bId));
+			}
+		});
+	}
+	
+/*
 	public void delete(String strID) {
 		Connection conn =null;
 		PreparedStatement stmt = null;
@@ -262,31 +320,37 @@ public class BoardDao {
 				e2.printStackTrace();
 			}
 		}
-		
-		
 	}
+*/
+	public void delete(final String strID) {
+		String query = "delete from mvc_board2 where bId = ?";
+		template.update(query, new PreparedStatementSetter() {
 
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, strID);
+			}
+		});
+	}
+/*	
 	public void reply(String bId, String bName, String bTitle, String bContent, String bGroup, String bStep,
 			String bIndent) {
 		Connection conn =null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		replyShape(bGroup, bStep);
-		
+		replyShape(bGroup, bStep);	
 		try {
 			conn = dataSource.getConnection();
 			System.out.println("reply method called ###### " + bId);
-			String query = "insert into mvc_board2 (bName, bTitle, bContent, bGroup, bStep, bIndent) values (?,?,?,?,?,?)";
-			
+			String query = "insert into mvc_board2 (bName, bTitle, bContent, bGroup, bStep, bIndent) values (?,?,?,?,?,?)";		
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, bName);
 			stmt.setString(2, bTitle);
 			stmt.setString(3, bContent);
 			stmt.setInt(4,Integer.parseInt(bGroup));
 			stmt.setInt(5,Integer.parseInt(bStep)+1);
-			stmt.setInt(6,Integer.parseInt(bIndent)+1);
-			
+			stmt.setInt(6,Integer.parseInt(bIndent)+1);		
 			int rtn = stmt.executeUpdate();
 			System.out.println("BoardDao.reply method called : " + rtn);
 		} catch (Exception e) {
@@ -299,10 +363,27 @@ public class BoardDao {
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
-		}
-		
+		}	
 	}
+*/	
+	
+	public void reply(final String bId, final String bName, final String bTitle, final String bContent, 
+			final String bGroup, final String bStep, final String bIndent) {
+		String query = "insert into mvc_board2 (bName, bTitle, bContent, bGroup, bStep, bIndent) values (?,?,?,?,?,?)";
+		template.update(query, new PreparedStatementSetter() {
 
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, bName);
+				ps.setString(2, bTitle);
+				ps.setString(3, bContent);
+				ps.setInt(4,Integer.parseInt(bGroup));
+				ps.setInt(5,Integer.parseInt(bStep)+1);
+			}
+		});
+	}
+	
+/*	
 	private void replyShape(String strGroup, String strStep) {
 		Connection conn = null; 
 		PreparedStatement stmt = null;
@@ -311,12 +392,9 @@ public class BoardDao {
 			conn = dataSource.getConnection();
 			System.out.println("reply shape method called ###### " + strGroup);
 			String query = "update mvc_board2 set bStep = bStep + 1 where bGroup = ? and bStep > ? ";
-			
-			stmt = conn.prepareStatement(query);
-			
+			stmt = conn.prepareStatement(query);		
 			stmt.setInt(1,Integer.parseInt(strGroup));
 			stmt.setInt(2,Integer.parseInt(strStep));
-	
 			int rtn = stmt.executeUpdate();
 			System.out.println("BoardDao.reply method called : " + rtn);
 
@@ -333,9 +411,22 @@ public class BoardDao {
 		
 		
 	}
+*/
+	
+	private void replyShape(final String strGroup, final String strStep) {
+		String query = "update mvc_board2 set bStep = bStep + 1 where bGroup = ? and bStep > ? ";
+		template.update(query, new PreparedStatementSetter() {
 
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, Integer.parseInt(strGroup));
+				ps.setInt(2, Integer.parseInt(strStep));	
+			}
+		});
+	}
+	
+/*
 	public BoardDto reply_view(String strID) {
-		
 		BoardDto dto = null;
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -345,8 +436,7 @@ public class BoardDao {
 			String query = "select * from mvc_board2 where bId = ?";
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, Integer.parseInt(strID));
-			rs = stmt.executeQuery();
-			
+			rs = stmt.executeQuery();		
 			if(rs.next()) {
 				int bId = rs.getInt("bId");
 				String bName = rs.getString("bName");
@@ -357,10 +447,8 @@ public class BoardDao {
 				int bGroup = rs.getInt("bGroup");
 				int bStep = rs.getInt("bStep");
 				int bIndent = rs.getInt("bIndent");
-				
 //				dto = new BoardDto(bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent);
 				dto = new BoardDto(bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent);
-				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -374,6 +462,10 @@ public class BoardDao {
 			}
 		}
 		return dto;
-		
+	}
+*/
+	public BoardDto reply_view(String strID) {
+		String query = "select * from mvc_board2 where bId = ?";
+		return template.queryForObject(query,  new BeanPropertyRowMapper<BoardDto>(BoardDto.class));
 	}
 }
