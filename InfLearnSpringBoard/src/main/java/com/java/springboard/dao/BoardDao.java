@@ -217,7 +217,7 @@ public class BoardDao {
 	
 	public BoardDto contentView(String strID) {
 		upHit(strID);
-		String query = "select * from mvc_board2 where bid=?";
+		String query = "select * from mvc_board2 where bid= " + strID;
 		return template.queryForObject(query, new BeanPropertyRowMapper<BoardDto>(BoardDto.class));	
 	}
 	
@@ -465,7 +465,7 @@ public class BoardDao {
 	}
 */
 	public BoardDto reply_view(String strID) {
-		String query = "select * from mvc_board2 where bId = ?";
+		String query = "select * from mvc_board2 where bId = " + strID;
 		return template.queryForObject(query,  new BeanPropertyRowMapper<BoardDto>(BoardDto.class));
 	}
 }
