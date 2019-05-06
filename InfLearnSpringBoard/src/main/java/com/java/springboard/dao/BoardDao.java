@@ -94,7 +94,7 @@ public class BoardDao {
 				pstmt.setString(1, bName);
 				pstmt.setString(2, bTitle);
 				pstmt.setString(3, bContent);
-				return null;
+				return pstmt;
 			}
 			
 		});
