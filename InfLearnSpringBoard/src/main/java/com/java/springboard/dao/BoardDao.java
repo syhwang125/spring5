@@ -28,6 +28,7 @@ public class BoardDao {
 	// 생성자
 	// 생성 시점에 데이터 소스 구하기. 컨텍스트 -> 데이터소스
 	public BoardDao() {
+		/*
 		// try ~ catch 는 필요없으므로 삭제해야 함. 
 		try {
 			Context context = new InitialContext();
@@ -36,7 +37,7 @@ public class BoardDao {
 		} catch (NamingException ne) {
 			ne.printStackTrace();
 		}
-		
+		*/
 		template = Constant.template;
 		
 	}
