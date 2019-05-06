@@ -136,6 +136,7 @@ public class BoardDao {
         System.out.println( "boardDao called template :: " + template );
 		System.out.println( "boardDao called template.getDataSource() :: " + template.getDataSource() );
         int count = template.queryForInt( "select bId from mvc_board2 where bId=2" );
+        
         System.out.println( "boardDao called template.queryForInt() : "  + count);
         count = template.update( "insert into mvc_board2(bName, bTitle, bContent) values('test','title','contents');" );
         System.out.println( "boardDao called template.update() : "  + count);
