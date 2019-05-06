@@ -139,7 +139,7 @@ public class BoardDao {
         
         System.out.println( "boardDao called template.queryForInt() : "  + count);
         count = template.update( "insert into mvc_board2(bName, bTitle, bContent) values('test','title','contents');" );
-        System.out.println( "boardDao called template.update() : "  + count);
+        System.out.println( "boardDao called template.update() : "  + count);  
         
         
 		dtos = (ArrayList<BoardDto>) template.query(query,  new BeanPropertyRowMapper<BoardDto>(BoardDto.class));
