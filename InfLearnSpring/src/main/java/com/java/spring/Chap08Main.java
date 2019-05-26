@@ -23,7 +23,7 @@ public class Chap08Main {
 		
 		GenericXmlApplicationContext gCtx = (GenericXmlApplicationContext) ctx;
 		gCtx.load("applicationCTX-08.xml");
-		gCtx.refresh();
+		gCtx.refresh();   
 		
 		System.out.println("=======================");
 		

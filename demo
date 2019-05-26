@@ -1,0 +1,112 @@
+MES3.0 데모 환경 준비 
+
+<< maven repository 에 library install 방법 >>
+https://poscoict-glueframework.github.io/5.1/docs/env-glue.html#library
+
+syhwang125@PICSYHWANG12001 MINGW64 /c/eclipse/users/GlueSDK
+$ cd repo/
+/c/eclipse/users/GlueSDK/repo>mvn install:install
+$ mvn install:install-file -Dfile=glue-framework-5.1.0-RELEASE.pom -DpomFile=glue-framework-5.1.0-RELEASE.pom
+$ mvn install:install-file -Dfile=glue-schema-5.1.0-RELEASE.jar -DpomFile=glue-schema-5.1.0-RELEASE.pom
+$ mvn install:install-file -Dfile=glue-util-5.1.0-RELEASE.jar -DpomFile=glue-util-5.1.0-RELEASE.pom
+$ mvn install:install-file -Dfile=glue-core-5.1.0-RELEASE.jar -DpomFile=glue-core-5.1.0-RELEASE.pom    
+
+
+
+<< Glue SDK Archetype >> 
+
+File > New Project > New Maven Project > catalog 에서 posco-mes3.0 archetype catalog 선택 
+base, cqrs 중 선택 후 Artifact Id 에 coldcoil 입력, user 에 사용자명 입력
+
+<< Glue plug-in SDK >>
+1) eclipse plugin 설치 
+\\203.238.222.42\swdev\2_1_Glue Framework\1_Release\GlueFramework4-plugin
+eclipse_plugins(2.0.4).zip 파일을 다운로드 받아서 압축을 푼다. 
+C:\eclipse-2018-09\eclipse\dropins 에 4개의 jar를 복사한다. 
+
+2) eclipse SDK 설치
+https://www.solutionpot.co.kr/sdkDownload   에서 Glue Framework 5.1.0 다운로드, 압축을 푼다.
+C:\eclipse-2018-09\eclipse\users\GlueSDK 에 4개 폴더를 복사한다.
+
+3) eclipse 환경설정
+eclipse 에서 window > preferences > Glue Framework 에 SDK Location 선택 
+File > New > Glue Framework > Glue Maven Project 선택 후 project name 입력 
+프로젝트에서 src/main/model/sample.glue_uml_ad 선택 
+팔레트에서 reuse activity 를 선택하거나 custom activity 를 선택하여 액티비티 다이어그램 작성
+Generate Service , Generate Document 선택하면 프로젝트 및 설계서 자동 생성 
+
+<< Glue Scheduler >> 
+Scheduler 환경 설정
+http://almconf.poscoict.com/pages/viewpage.action?pageId=17926438 
+
+1. Git Repo 에서 glue scheduler clone , maven update project 
+2. C:\Apache\mavenRepository\org\quartz-scheduler\quartz\2.3.0\quartz-2.3.0\org\quartz\impl\jdbcjobstore\tables_mysql.sql 파일 오픈 
+3. DBeaver (db tool)에서 quartz DB 생성 후 스크립트 실행 
+4. DB  계정 (quartz / quartz ) 
+5. eclipse 에서 scheduler-server app 실행 
+6. eclipse 에서 schedule-agent app 실행
+7. chrome 브라우저에서 
+서버 http://localhost:8080/swagger-ui.html 
+에이전트 http://localhost:9090/swagger-ui.html
+           http://localhost:9090/actuator/hawtio/
+
+8. scheduler front 폴더에서 node js 실행하기 
+   $npm start 또는 $node index.js
+npm start은 package.json의 scripts에 있는 start 명령어를 실행하는 부분임. 만약 start 명령어를 따로 설정하지 않았다면 node server.js가 실행된다
+
+
+c:\Apache\gitRepository\glue-scheduler> git pull
+c:\Apache\gitRepository\glue-scheduler>mvn clean install 
+c:\Apache\gitRepository\glue-scheduler> java -jar scheduler-server\target\scheduler-server-1.0.0.jar 
+(scheduler-server 를 실행하면 scheduler tables 생성됨)
+c:\Apache\gitRepository\glue-scheduler> java -jar scheduler-manager\target\scheduler-manager-1.0.0.jar 
+c:\Apache\gitRepository\glue-scheduler\schedule-manager\front > npm start 
+http://localhost:2000/   (admin/admin) 
+
+<< Glue Push >> 
+
+1. 소스 받기
+Bitbucket Git Rrepository 
+http://almcm.poscoict.com/projects/GFFM/repos/glue-push/browse
+
+/c/Apache/gitRepository/
+$git clone http://syhwang@almcm.poscoict.com/scm/gffm/glue-push.git
+$git pull 
+
+2. 커맨드에서 빌드
+$ pwd
+/c/Apache/gitRepository/glue-push
+
+$ ls
+glue-push-client/  glue-push-common/  glue-push-server/  pom.xml
+
+$ /c/Apache/apache-maven-3.5.4/bin/mvn clean install
+
+3. 커맨드에서 실행
+syhwang125@PICSYHWANG12001 MINGW64 /c/Apache/gitRepository/glue-push/glue-push-server (master)
+$ /c/Apache/apache-maven-3.5.4/bin/mvn spring-boot:run
+
+4. 이클립스에서 실행
+Eclipse (T:\eclipseworkspace4glue) 
+1) push 서버 실행하기
+C:\Apache\gitRepository\glue-push\glue-push-server\src\main\java\com\glue\push\server\PushServer.java 
+
+2)push 클라이언트 sender 와 receiver 각자 실행해 보기 
+C:\Apache\gitRepository\glue-push\glue-push-client\src\test\java\com\poscoict\app\push\test\Sender.java
+C:\Apache\gitRepository\glue-push\glue-push-client\src\test\java\com\poscoict\app\push\test\Receiver.java
+
+5. 웹브라우저에서 클라이언트 실행하기 
+1) Sender 역할
+file:///C:/Apache/gitRepository/glue-push/glue-push-client/src/test/resources/WebSocketClient.html 
+WebSocket 을 통해 서버와 연결을 위한 connect 버튼 클릭
+push channel 이름 정의 및 subscribe 선택 
+sender 에 sender 이름 정의 
+message 에 보내고자 하는 메시지 입력 후 'Send Message' 
+
+2) Receiver 역할
+file:///C:/Apache/gitRepository/glue-push/glue-push-client/src/test/resources/WebSocketClient.html
+WebSocket 을 통해 서버와 연결을 위한 connect 버튼 클릭
+push channel 이름 정의 및 subscribe 선택 
+sender 에서 보낸 메시지가 하단에 출력됨
+
+\\203.238.222.42\swdev\2_5_Glue Framework for MES3.0\6.동영상
