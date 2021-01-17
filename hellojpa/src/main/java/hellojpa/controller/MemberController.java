@@ -54,7 +54,13 @@ public class MemberController {
 	@RequestMapping("/hellopage")
 	public Page<Member> memberPage() {
 		PageRequest pageRequest = PageRequest.of( 1, 5);
-		return repository.findByName("dooly", pageRequest);
+		Page<Member> result = repository.findByName("dooly", pageRequest);
+
+		long total = result.getTotalElements();		// total count
+		System.out.println("total count : " + total);
+		List<Member> members = result.getContent();  // data 
+		
+		return result;
 	}
 	
 	@RequestMapping("/members")
