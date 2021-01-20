@@ -23,6 +23,8 @@ public abstract class GameConnectHelper {
 		
 		// 권한 
 		switch (i) {
+		case -1: 
+			throw new Error("shutdown");
 		case 0:    // 게임 매니저 
 			System.out.println(" 0 ") ;
 			break;

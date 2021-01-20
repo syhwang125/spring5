@@ -18,6 +18,7 @@ public class DefaultGameConnectHelper extends GameConnectHelper {
 	protected int authorization(String username) {
 		System.out.println("권한 확인  ");
 		// 서버에서 사용자의 이름, 나이를 확인한 후 접속 가능 시간을 체크 
+		
 		return 0;
 	}
 
